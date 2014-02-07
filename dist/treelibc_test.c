@@ -87,7 +87,7 @@ int main(void) {
 		return EXIT_FAILURE;
 	}
 	puts("--- insert ----------------------------");
-	for(ul = 0; ul < ulLen; ul++) /* insert key copy and value address */
+	for(ul = 0; ul < ulLen; ul++) /* insert key address and value address */
 		treeInsert(&tree, pppKeysValues[0][ul], 0, pppKeysValues[1][ul], 0);
 	printData(&tree, 0);
 
@@ -115,7 +115,7 @@ int main(void) {
 	printData(&tree, 0);
 
 	/* ---------------------- TEST CASE 5 RE-INSERT ---------------------- */
-	puts("--- re-insert ---------------------------"); /* re-insert the chief justice */
+	puts("--- re-insert ---------------------------");
 	printf("Insert: %s - %s\n", "Roberts", "W. Bush"); /* re-insert the chief justice */
 	treeInsert(&tree, "Roberts", strlen("Roberts"), "W. Bush", strlen("W. Bush"));
 	printData(&tree, 0);
