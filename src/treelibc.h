@@ -3,8 +3,9 @@
  Name        : treelibc.h
  Author      : David T. Silvers Sr.
  Contact     : davidtsilvers@aol.com
- Date        : 2014-02-03
- Version     : 1.00
+ Created     : 2014-02-03
+ Updated     : 2014-02-14
+ Version     : 1.10
  License     : GNU LGPL
  Description : Associative Balanced Tree Container with no recursive limits.
                Generic implementation requires user supplied compare function.

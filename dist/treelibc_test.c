@@ -3,8 +3,9 @@
  Name        : treelibc_test.c
  Author      : David T. Silvers Sr.
  Contact     : davidtsilvers@aol.com
- Date        : 2014-02-03
- Version     : 1.00
+ Created     : 2014-02-03
+ Updated     : 2014-02-14
+ Version     : 1.10
  License     : GNU LGPL
  Description : Tester and usage example for treelibc
                treelibc "Associative Balanced Tree Container"
@@ -86,7 +87,7 @@ int main(void) {
 		fprintf(stderr, "ERROR: initialization failed!");
 		return EXIT_FAILURE;
 	}
-	puts("--- insert ----------------------------");
+	puts("--- insert address ------------------------------");
 	for(ul = 0; ul < ulLen; ul++) /* insert key address and value address */
 		treeInsert(&tree, pppKeysValues[0][ul], 0, pppKeysValues[1][ul], 0);
 	printData(&tree, 0);
@@ -94,7 +95,7 @@ int main(void) {
 	/* --------- TEST CASE 2 INSERT KEY COPIES AND VALUE COPIES ---------- */
 	treeFree(&tree); /* free all memory used by tree */
 	treeInit(&tree, compareStr);
-	puts("--- insert ----------------------------");
+	puts("--- insert copy ---------------------------------");
 	for(ul = 0; ul < ulLen; ul++) /* insert copy of both key and value */
 		treeInsert(
 			&tree, pppKeysValues[0][ul], strlen(pppKeysValues[0][ul]),
@@ -103,26 +104,26 @@ int main(void) {
 	printData(&tree, 0);
 
 	/*- ---------------------- TEST CASE 3 UPDATE ------------------------ */
-	puts("--- update ----------------------------");
+	puts("--- update --------------------------------------");
 	printf("Update: %s - %s\n", "Thomas", "H. W. Bush"); /* update value */
 	treeUpdate(&tree, "Thomas", "H. W. Bush", strlen("H. W. Bush"));
 	printData(&tree, 0);
 
 	/* ---------------------- TEST CASE 4 DELETE ---------------------- */
-	puts("--- delete ----------------------------");
+	puts("--- delete --------------------------------------");
 	printf("Delete: %s\n", "Roberts"); /* delete the Chief justice */
 	treeDelete(&tree, "Roberts");
 	printData(&tree, 0);
 
 	/* ---------------------- TEST CASE 5 RE-INSERT ---------------------- */
-	puts("--- re-insert ---------------------------");
+	puts("--- re-insert -----------------------------------");
 	printf("Insert: %s - %s\n", "Roberts", "W. Bush"); /* re-insert the chief justice */
 	treeInsert(&tree, "Roberts", strlen("Roberts"), "W. Bush", strlen("W. Bush"));
 	printData(&tree, 0);
 
 	/* - TEST CASE 6 ADD SECOND TREE, USE VALUES AS KEYS AND PASS NULL AS VALUES - */
 	treeInit(&t2, compareStr);
-	puts("--- insert ----------------------------");
+	puts("--- insert values as keys and null for values ---");
 	for(ul = 0; ul < ulLen; ul++)
 		treeInsert(&t2, pppKeysValues[1][ul], 0, NULL, 0); /* inserts only unique keys */
 	printData(&t2, 0);
@@ -130,7 +131,7 @@ int main(void) {
 	/* - TEST CASE 7 FREE SECOND TREE AND RE-INITIALIZE WITH NUMBERS WITHOUT VALUE COPY - */
 	treeFree(&t2); /* free all memory used by tree */
 	treeInit(&t2, compareDescendUL); /* comparison implementation creates descending order */
-	puts("--- insert ----------------------------");
+	puts("--- insert numbers as keys ----------------------");
 	for(ul = 1; ul <= ulLen; ul++) /* local variables must use copy feature by passing size */
 		treeInsert(&t2, &ul, sizeof(unsigned long), pppKeysValues[0][ul - 1], 0);
 	printData(&t2, 1);

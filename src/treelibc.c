@@ -3,8 +3,9 @@
  Name        : treelibc.c
  Author      : David T. Silvers Sr.
  Contact     : davidtsilvers@aol.com
- Date        : 2014-02-03
- Version     : 1.00
+ Created     : 2014-02-03
+ Updated     : 2014-02-14
+ Version     : 1.10
  License     : GNU LGPL
  Description : Associative Balanced Tree Container with no recursive limits.
                Generic implementation requires user supplied compare function.
@@ -69,6 +70,7 @@ static Node* getNodeByKey(Tree *, const void *); /* General purpose called by va
 static void removeNode(Node *); /* General purpose to remove node from tree */
 static void spliceLeft(Node *); /* General purpose to assign node's parent to node's left child */
 static void spliceRight(Node *);  /* General purpose to assign node's parent to node's right child */
+static void resetList(Tree *, Node *); /* General purpose to remove node from list */
 
 unsigned long treeLength(Tree *pTree) { return(pTree->ulTreeLen); }
 
@@ -146,7 +148,7 @@ return(0);
 }
 
 int treeDelete(Tree *pTree, const void *pKey) {
-	int iRet = 0;
+	int iRet = 0, iListSettled = 0;
 	Node *pNode;
 	if((pTree == NULL) || (pKey == NULL))
 		return 0;
@@ -162,6 +164,14 @@ int treeDelete(Tree *pTree, const void *pKey) {
 			for(p = pNode->pLeft; p != NULL; p = p->pRight)
 				pN = p;
 			copyKeyValue(pTree, pNode, pN->pKey, pN->sizeTkey, pN->pValue, pN->sizeTvalue);
+			resetList(pTree, pNode);
+			pNode->pPrev = pN->pPrev;
+			pNode->pNext = pN->pNext;
+			if(pNode->pPrev != NULL)
+				pNode->pPrev->pNext = pNode;
+			if(pNode->pNext != NULL)
+				pNode->pNext->pPrev = pNode;
+			iListSettled = 1;
 			if(pN->pLeft != NULL) {
 				spliceLeft(pN);
 				balanceTree(pTree, pN->pLeft);
@@ -185,18 +195,8 @@ int treeDelete(Tree *pTree, const void *pKey) {
 				balanceTree(pTree, pNode->pRight);
 			}
 		}
-		if(pNode->pPrev != NULL) {
-			if(pNode->pNext != NULL) {
-				pNode->pPrev->pNext = pNode->pNext;
-				pNode->pNext->pPrev = pNode->pPrev;
-			} else {
-				pNode->pPrev->pNext = NULL;
-				pTree->pt = pNode->pPrev;
-			}
-		} else {
-			pNode->pNext->pPrev = NULL;
-			pTree->ph = pNode->pNext;
-		}
+		if(!iListSettled)
+			resetList(pTree, pNode);
 		if((pNode->pValue != NULL) && (pNode->sizeTvalue > 0))
 			free(pNode->pValue);
 		if(pNode->sizeTkey > 0)
@@ -444,4 +444,19 @@ static Node* getNodeByKey(Tree *pTree, const void *pKey) {
 		}
 	}
 return(NULL);
+}
+
+static void resetList(Tree *pTree, Node *pNode) {
+	if(pNode->pPrev != NULL) {
+		if(pNode->pNext != NULL) {
+			pNode->pPrev->pNext = pNode->pNext;
+			pNode->pNext->pPrev = pNode->pPrev;
+		} else {
+			pNode->pPrev->pNext = NULL;
+			pTree->pt = pNode->pPrev;
+		}
+	} else {
+		pNode->pNext->pPrev = NULL;
+		pTree->ph = pNode->pNext;
+	}
 }

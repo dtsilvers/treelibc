@@ -3,8 +3,9 @@
                SEE ALSO: dist/treelibc_test.c AND dist/treelibc.h
  Author      : David T. Silvers Sr.
  Contact     : davidtsilvers@aol.com
- Date        : 2014-02-03
- Version     : 1.00
+ Created     : 2014-02-03
+ Updated     : 2014-02-14
+ Version     : 1.10
  License     : GNU LGPL
  Description : Associative Balanced Tree Container with no recursive limits.
                Generic implementation requires user supplied compare function.
@@ -31,6 +32,40 @@
     You should have received a copy of the GNU Lesser General Public
     License along with treelibc. If not, see <http://www.gnu.org/licenses/>.
   =============================================================================
+  Rev 1.10 
+     
+     This is not a bug fix as much as it is a feature enhancement to make 
+     the functionality more of what one may have seen in other languages. 
+     
+  Summary: 
+     
+     Deletions consistently shift any subsequent array elements to the left. 
+
+  Details:
+           
+     Previously, when a key was deleted, the functionality took the fastest
+     route of removing the key regardless of the original insertion order. 
+     Since in all cases treeArray(..) should be called after every deletion, 
+     the deletion ignored the original insertion order, because regardless
+     of how a key is removed, there are less elements so it's not original. 
+     A version 1.00 deletion would at times maintain a similar insertion  
+     order to the original insertion, then other times it was faster to just
+     copy key/value data from another element without resetting all pointers,
+     although, since performance tradeoff is negligible it was worth revision.
+  
+  Code changes: treelibc.c, treelibc_test.c
+  
+    treelibc.c: SEE ABOVE
+  
+      EDIT: int treeDelete(Tree *pTree, const void *pKey); 
+  
+  	  ADD: static void resetList(Tree *, Node *); /* general purpose function */
+  	
+    treelibc_test.c: print more detail
+  
+      EDIT: int main(void)  
+     
+  -----------------------------------------------------------------------------
   Project developed in Eclipse-Kepler-CPP with MinGW32 on Windows 8.
   -----------------------------------------------------------------------------
 
