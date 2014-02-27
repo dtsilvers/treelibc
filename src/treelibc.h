@@ -4,8 +4,8 @@
  Author      : David T. Silvers Sr.
  Contact     : davidtsilvers@aol.com
  Created     : 2014-02-03
- Updated     : 2014-02-14
- Version     : 1.10
+ Updated     : 2014-02-27
+ Version     : 1.101
  License     : GNU LGPL
  Description : Associative Balanced Tree Container with no recursive limits.
                Generic implementation requires user supplied compare function.
@@ -53,15 +53,15 @@ typedef struct tree { /* convenience structure to allow for multiple trees in pr
 } Tree;
 
 /* Global function declarations for external usage. CRUD: Create, Read, Update and Delete */
-//extern Tree* treeInit(Tree *pTree, PFCMP pfCmp); /* Return: NULL = fail */
-//extern int treeInsert(Tree *pTree, void *pKey, size_t sizeTkey, void *pValue, size_t sizeTvalue); /* Return: 0 = fail; 1 = insert */
-//extern unsigned long treeLength(Tree *pTree); /* Return number of unique inserted keys for length of arrays */
-//extern void** const treeArray(Tree *pTree); /* get array of keys in order of insertion. Return: NULL = fail */
-//extern void** const treeArraySorted(Tree *pTree); /* get array of sorted keys. Return: NULL = fail */
-//extern void* treeValue(Tree *pTree, const void *pKey); /* get value from given key. Return: NULL = fail */
-//extern int treeUpdate(Tree *pTree, const void *pKey, void *pValue, size_t sizeTvalue); /* Return: 0 = fail; 1 = update */
-//extern int treeDelete(Tree *pTree, const void *pKey); /* delete key. Return: 0 = fail; 1 = deleted */
-//extern void treeFree(Tree *pTree); /* free internally allocated memory for given tree */
+Tree* treeInit(Tree *pTree, PFCMP pfCmp); /* Return: NULL = fail */
+int treeInsert(Tree *pTree, void *pKey, size_t sizeTkey, void *pValue, size_t sizeTvalue); /* Return: 0 = fail; 1 = insert */
+unsigned long treeLength(Tree *pTree); /* Return number of unique inserted keys for length of arrays */
+void** const treeArray(Tree *pTree); /* get array of keys in order of insertion. Return: NULL = fail */
+void** const treeArraySorted(Tree *pTree); /* get array of sorted keys. Return: NULL = fail */
+void* treeValue(Tree *pTree, const void *pKey); /* get value from given key. Return: NULL = fail */
+int treeUpdate(Tree *pTree, const void *pKey, void *pValue, size_t sizeTvalue); /* Return: 0 = fail; 1 = update */
+int treeDelete(Tree *pTree, const void *pKey); /* delete key. Return: 0 = fail; 1 = deleted */
+void treeFree(Tree *pTree); /* free internally allocated memory for given tree */
 
 #ifdef __cplusplus
 }

@@ -4,8 +4,8 @@
  Author      : David T. Silvers Sr.
  Contact     : davidtsilvers@aol.com
  Created     : 2014-02-03
- Updated     : 2014-02-14
- Version     : 1.10
+ Updated     : 2014-02-27
+ Version     : 1.101
  License     : GNU LGPL
  Description : Associative Balanced Tree Container with no recursive limits.
                Generic implementation requires user supplied compare function.
@@ -32,26 +32,54 @@
     You should have received a copy of the GNU Lesser General Public
     License along with treelibc. If not, see <http://www.gnu.org/licenses/>.
   =============================================================================
-  Rev 1.10 
+  Revision system: M.mfb
+  
+    M = major feature enhancement
+    m = minor feature enhancement
+    f = fix
+    b = compiler or build revision
+  
+  =============================================================================
+  Revison: 1.101                                               Date: 2014-02-27  
      
-     This is not a bug fix as much as it is a feature enhancement to make 
-     the functionality more of what one may have seen in other languages. 
+    This is not a bug fix or feature enhancement as much as it is a compiler
+    specific change, meaning that all files in dist remain unchanged.
+  	
+  Summary: 
+  	
+    Alleviate C compiler configuration issues by removing C++ comments.
+  	
+  Details: 
+  	
+    Previously treelibc.h would compile with a C/C++ compiler configuration, 
+    however, it could cause errors when compiled with a C compiler config.
+  	 
+  Code changes: treelibc.c, treelibc.h 
+  
+    Remove commented out extern global function declarations from treelibc.h,
+    then move global function declarations from treelibc.c to treelibc.h.    
+   
+  -----------------------------------------------------------------------------
+  Revision: 1.10                                               Date: 2014-02-14            
+     
+    This is not a bug fix as much as it is a feature enhancement to make 
+    the functionality more of what one may have seen in other languages. 
      
   Summary: 
      
-     Deletions consistently shift any subsequent array elements to the left. 
+    Deletions consistently shift any subsequent array elements to the left. 
 
   Details:
            
-     Previously, when a key was deleted, the functionality took the fastest
-     route of removing the key regardless of the original insertion order. 
-     Since in all cases treeArray(..) should be called after every deletion, 
-     the deletion ignored the original insertion order, because regardless
-     of how a key is removed, there are less elements so it's not original. 
-     A version 1.00 deletion would at times maintain a similar insertion  
-     order to the original insertion, then other times it was faster to just
-     copy key/value data from another element without resetting all pointers,
-     although, since performance tradeoff is negligible it was worth revision.
+    Previously, when a key was deleted, the functionality took the fastest
+    route of removing the key regardless of the original insertion order. 
+    Since in all cases treeArray(..) should be called after every deletion, 
+    the deletion ignored the original insertion order, because regardless
+    of how a key is removed, there are less elements so it's not original. 
+    A version 1.00 deletion would at times maintain a similar insertion  
+    order to the original insertion, then other times it was faster to just
+    copy key/value data from another element without resetting all pointers,
+    although, since performance tradeoff is negligible it was worth revision.
   
   Code changes: treelibc.c, treelibc_test.c
   
@@ -59,7 +87,7 @@
   
       EDIT: int treeDelete(Tree *pTree, const void *pKey); 
   
-  	  ADD: static void resetList(Tree *, Node *); /* general purpose function */
+      ADD: static void resetList(Tree *, Node *); /* general purpose function */
   	
     treelibc_test.c: print more detail
   

@@ -4,8 +4,8 @@
  Author      : David T. Silvers Sr.
  Contact     : davidtsilvers@aol.com
  Created     : 2014-02-03
- Updated     : 2014-02-14
- Version     : 1.10
+ Updated     : 2014-02-27
+ Version     : 1.101
  License     : GNU LGPL
  Description : Associative Balanced Tree Container with no recursive limits.
                Generic implementation requires user supplied compare function.
@@ -47,18 +47,6 @@ typedef struct node {
 	struct node *pPrev, *pNext, *pParent, *pRight, *pLeft;
 } Node;
 
-/* Global function declarations for external usage. CRUD: Create, Read, Update and Delete */
-Tree* treeInit(Tree *pTree, PFCMP pfCmp); /* Return: NULL = fail */
-int treeInsert(Tree *pTree, void *pKey, size_t sizeTkey, void *pValue, size_t sizeTvalue); /* Return: 0 = fail; 1 = insert */
-unsigned long treeLength(Tree *pTree); /* Return number of unique inserted keys for length of arrays */
-void** const treeArray(Tree *pTree); /* get array of keys in order of insertion. Return: NULL = fail */
-void** const treeArraySorted(Tree *pTree); /* get array of sorted keys. Return: NULL = fail */
-void* treeValue(Tree *pTree, const void *pKey); /* get value from given key. Return: NULL = fail */
-int treeUpdate(Tree *pTree, const void *pKey, void *pValue, size_t sizeTvalue); /* Return: 0 = fail; 1 = update */
-int treeDelete(Tree *pTree, const void *pKey); /* delete key. Return: 0 = fail; 1 = deleted */
-void treeFree(Tree *pTree); /* free internally allocated memory for given tree */
-
-/* static file scope function declarations */
 static Node* initNode(Tree *, Node *, void *, size_t, void *, size_t); /* Allocates memory for each node */
 static void copyKeyValue(Tree *, Node *, void *, size_t, void *, size_t); /* General purpose copy key/value */
 static void copyValue(Tree *, Node *pNode, void*, size_t); /* General purpose copy value */
